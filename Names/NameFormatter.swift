@@ -27,7 +27,34 @@ class NameFormatter {
   }
   
   func inverted() -> String {
-    return "🤷‍♀️"
+    let nameString = name.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    if nameString == "" || nameString.range(of: String(",")) != nil{
+      return ""
+    }
+ 
+    var invertedName = ""
+
+    let components = nameString.components(separatedBy: NSCharacterSet.whitespacesAndNewlines)
+    let words = components.filter { !$0.isEmpty }
+
+    let prefixes = ["Mr.", "Mrs.", "Ms.", "Dr."]
+    
+    if prefixes.contains(words[0]){
+      if words.count == 2 {
+        invertedName = "\(words[0]) \(words[1])"
+      } else if words.count == 3 {
+        invertedName = "\(words[0]) \(words[2]), \(words[1])"
+      }
+    } else {
+      if words.count == 1 {
+        invertedName = words[0]
+      } else {
+        invertedName = "\(words[1]), \(words[0])"
+      }
+    }
+    
+    return invertedName
   }
   
 }
